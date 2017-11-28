@@ -3,28 +3,7 @@
 Created by EunSeop and [Daijin Kim](http://imlab.postech.ac.kr/members_d.htm) at [POSTECH IM Lab](http://imlab.postech.ac.kr)
 
 ### Overview
-We propose a new object detection method based on [YOLOv2](https://github.com/pjreddie/darknet) that extracts features through base network and a hourglass method robust to small object detection. To improve the performance of Recall, we use anchor boxes to detect object. 
-
-
-### Citation
-
-
-
-### Overall
-
-
-### Performance
-Comparison of the number of DCNNs, the number of images, the dimensionality of feature, and the accuracy of the proposed method with the state-of-the-art on the LFW.
-<img src="https://github.com/bnkang/PIMNet_FR/blob/master/resource/research_fr_result_lfw.png?raw=true" width=640>
-
-
-### Related Papers
-
-
-### Code
-
-
-### Licence
+We propose a new animal detection method for ADAS based on [YOLOv2](https://github.com/pjreddie/darknet) that extracts features through base network and a hourglass method robust to small object detection. To improve the performance of Recall, we use anchor boxes to detect object. 
 
 
 ### Acknowledgements
