@@ -6,8 +6,7 @@ Created by EunSeop and [Daijin Kim](http://imlab.postech.ac.kr/members_d.htm) at
 We propose a new animal detection method for ADAS based on [YOLOv2](https://github.com/pjreddie/darknet) that extracts features through base network and a hourglass method robust to small object detection. To improve the performance of Recall, we use anchor boxes to detect object. 
 
 ### How to use
-You can easily train/test your images (or videos) using shell scripts (test_animals.sh, train_animals.sh, test_IR_animals.sh, train_IR_animals).
-
+You can easily train/test your images (or videos) using shell scripts (test_animals.sh, train_animals.sh).
 For training, you should download the pre-trained weight file from https://pjreddie.com/media/files/yolov2.weights
 
 ### Acknowledgements

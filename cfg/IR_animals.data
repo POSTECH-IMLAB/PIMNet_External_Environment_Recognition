@@ -1,7 +1,0 @@
-classes= 1
-train  = /home/eunseop90/data/IR_Deer/train.txt
-valid = /home/eunseop90/data/IR_Deer/test.txt
-names = data/IR_animals.names
-backup =backup
-
-
