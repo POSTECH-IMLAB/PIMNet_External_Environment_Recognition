@@ -1,0 +1,8 @@
+Cython
+opencv-python
+Pillow
+PyYAML
+scipy
+tensorboard
+wandb
+seaborn
