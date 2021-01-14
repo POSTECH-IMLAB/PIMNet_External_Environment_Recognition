@@ -1,7 +1,0 @@
-classes= 10
-train  = /home/eunseop/data/animalDB/buf/train.txt
-valid = /home/eunseop/data/animalDB/buf/val.txt
-names = data/animal.names
-backup = backup
-
-
