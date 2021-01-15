@@ -90,6 +90,7 @@ def test(data,
                                        prefix=colorstr(f'{task}: '))[0]
 
     seen = 0
+    unseen = 0
     confusion_matrix = ConfusionMatrix(nc=nc)
     names = {k: v for k, v in enumerate(model.names if hasattr(model, 'names') else model.module.names)}
     coco91class = coco80_to_coco91_class()
