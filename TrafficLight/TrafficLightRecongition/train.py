@@ -232,7 +232,7 @@ def train(hyp, opt, device, tb_writer=None):
     model.gr = 1.0  # iou loss ratio (obj_loss = 1.0 or iou)
     model.class_weights = labels_to_class_weights(dataset.labels, nc).to(device) * nc  # attach class weights
     model.names = names
-
+    
     # Start training
     t0 = time.time()
     nw = max(round(hyp['warmup_epochs'] * nb), 1000)  # number of warmup iterations, max(3 epochs, 1k iterations)
