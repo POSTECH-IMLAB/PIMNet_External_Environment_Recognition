@@ -102,7 +102,8 @@ class Ensemble(nn.ModuleList):
 
     def forward(self, x, augment=False):
         y = []
-        z = [1]
+        #z = [1,]
+        
         for module in self:
             y.append(module(x, augment)[0])
         # y = torch.stack(y).max(0)[0]  # max ensemble
