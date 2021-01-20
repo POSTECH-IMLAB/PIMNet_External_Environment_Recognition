@@ -68,7 +68,9 @@ class GhostBottleneck(nn.Module):
                                       Conv(c1, c2, 1, 1, act=False)) if s == 2 else nn.Identity()
 
     def forward(self, x):
-        return self.conv(x) + self.shortcut(x)
+        a = self.conv(x)
+        b = self.shortcut(x)
+        return a+b
 
 
 class MixConv2d(nn.Module):
@@ -103,7 +105,7 @@ class Ensemble(nn.ModuleList):
     def forward(self, x, augment=False):
         y = []
         #z = [1,]
-        
+
         for module in self:
             y.append(module(x, augment)[0])
         # y = torch.stack(y).max(0)[0]  # max ensemble
