@@ -6,3 +6,4 @@ scipy
 tensorboard
 wandb
 seaborn
+numpy
