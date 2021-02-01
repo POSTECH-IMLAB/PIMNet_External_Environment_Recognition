@@ -7,3 +7,4 @@ tensorboard
 wandb
 seaborn
 numpy
+torch
