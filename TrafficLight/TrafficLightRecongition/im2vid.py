@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import os
-img_path = 'D:/project/LISA/images/test/'
+
+img_path = 'D:/project/LISA/images/test/result/'
 img_list = os.listdir(img_path)
 img_list = sorted(img_list,key=lambda x: int(os.path.splitext(x)[0]))
 img_array = []
