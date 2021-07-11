@@ -7,8 +7,8 @@ This project includes:
 - Stationary Vehicle Detection
 - Pedestrian Detection
 - Lane Segmentation
-- Traffic Sign Detection
-- Traffic Sign Recognition
+- Traffic Light Detection & Recognition
+- Traffic Sign Detection & Recognition
 - Character Recognition
 
 ###
