@@ -30,7 +30,7 @@ start_epoch = 0
 lr = cfg.lr
 
 print('Preparing data..')
-### print test ###
+
 train_transform_list = [transforms.ToTensor(),transforms.Normalize(cfg.mean, cfg.std)]
 if cfg.scale is not None:
     train_transform_list.insert(0,transforms.Scale(cfg.scale))
@@ -66,7 +66,7 @@ if args.resume:
 criterion = FocalLoss(len(cfg.classes))
 
 optimizer = optim.Adam(net.parameters(), lr=cfg.lr,weight_decay=cfg.weight_decay)
-import IPython; IPython.embed()
+
 def train(epoch):
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=cfg.batch_size, shuffle=True,
                                           num_workers=cfg.num_workers, collate_fn=trainset.collate_fn)
