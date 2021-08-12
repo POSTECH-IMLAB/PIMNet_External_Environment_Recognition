@@ -7,7 +7,11 @@
   + Activate environment with following command `conda activate lane`
   + Install requirements with following command `pip install -r requirements.txt`
 
-## 2. Inference
+## 2. Preparation
+  + Download checkpoint from [Link](https://drive.google.com/file/d/1DONSeQ43PwAnW-Eehpvo5UaRAJP4mhZy/view?usp=sharing)
+  + Move file as follows `./snapshots/HighwayLane/latest.pth`. Create folder if needed.
+
+## 3. Inference
   + Prepare your image folder
   + `python run/Inference.py --source [IMAGE_FOLDER_DIR]`
 
