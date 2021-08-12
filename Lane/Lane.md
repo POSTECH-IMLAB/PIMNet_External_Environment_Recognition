@@ -1,6 +1,6 @@
 # Lane Segmentation
 
-![Teaser](./Lane/Teaser.gif)
+![Teaser](./Teaser.gif)
 
 ## 1. Create environment
   + Create conda environment with following command `conda create -y -n lane python=3.8`
