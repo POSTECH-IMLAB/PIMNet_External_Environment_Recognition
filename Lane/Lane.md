@@ -18,3 +18,5 @@
 ## Performance - KAIST Highway Dataset
   + Maximum F1 Score: 94.8
   + Maximum IoU: 88.5
+  + Throughput: 43 fps
+  + GPU Mem Usage: 1.5 GB
