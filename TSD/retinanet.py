@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 from resnet import *
+from mobilenetv2 import *
 torch.backends.cudnn.enabled = False
 
 
@@ -16,8 +17,8 @@ def classification_layer_init(tensor, pi=0.01):
     return tensor.fill_(fill_constant)
 
 def init_conv_weights(layer):
-    nn.init.normal(layer.weight.data, std=0.01)
-    nn.init.constant(layer.bias.data, val=0)
+    nn.init.normal_(layer.weight.data, std=0.01)
+    nn.init.constant_(layer.bias.data, val=0)
     return layer
 
 def conv1x1(in_channels, out_channels, **kwargs):
@@ -31,11 +32,11 @@ def conv3x3(in_channels, out_channels, **kwargs):
     return layer
 
 
-            
+
 def upsample(feature, sample_feature, scale_factor=2):
     out_channels=sample_feature.size()[1:]
     return F.upsample(feature,scale_factor=scale_factor)
-    
+
 class GroupNorm(nn.Module):
     def __init__(self, num_features, num_groups=32, eps=1e-5):
         super(GroupNorm, self).__init__()
@@ -73,7 +74,7 @@ class FeaturePyramid(nn.Module):
         self.upsample_transform_1 = conv3x3(256, 256, padding=1)
         self.upsample_transform_2 = conv3x3(256, 256, padding=1)
         self.dropout=nn.Dropout(p=0.5)
-        
+
 
     def forward(self, x):
         _, resnet_feature_3, resnet_feature_4, resnet_feature_5 = self.resnet(x)
@@ -81,7 +82,7 @@ class FeaturePyramid(nn.Module):
         resnet_feature_3=self.dropout(resnet_feature_3)
         resnet_faeture_4=self.dropout(resnet_feature_4)
         resnet_feature_5=self.dropout(resnet_feature_5)
-        
+
         pyramid_feature_6 = self.pyramid_transformation_6(resnet_feature_5)
         pyramid_feature_7 = self.pyramid_transformation_7(F.relu(pyramid_feature_6))
 
@@ -90,7 +91,7 @@ class FeaturePyramid(nn.Module):
         pyramid_feature_4 = self.pyramid_transformation_4(resnet_feature_4)
         upsampled_feature_5 = upsample(pyramid_feature_5, pyramid_feature_4)
         pyramid_feature_4 = self.upsample_transform_1(torch.add(upsampled_feature_5, pyramid_feature_4))
-        
+
         pyramid_feature_3 = self.pyramid_transformation_3(resnet_feature_3)
         upsampled_feature_4 = upsample(pyramid_feature_4, pyramid_feature_3)
         pyramid_feature_3 = self.upsample_transform_2(torch.add(upsampled_feature_4, pyramid_feature_3))
@@ -108,17 +109,17 @@ class SubNet(nn.Module):
         self.dropout=nn.Dropout(p=0.5)
         self.bn=nn.BatchNorm2d(256)
         self.gn=GroupNorm(256, 32)
-      
+
         init_conv_weights(self.output)
-        
+
 
     def forward(self, x):
         for layer in self.base:
             x = layer(x)
-            
+
             x=self.gn(x)
             x=self.activation(x)
-            
+
             x=self.dropout(x)
         x = self.output(x)
         x = x.permute(0, 2, 3, 1).contiguous().view(x.size(0), x.size(2) * x.size(3) * self.anchors, -1)
@@ -131,15 +132,15 @@ class RetinaNet(nn.Module):
         'resnet34': resnet34,
         'resnet50': resnet50,
         'resnet101': resnet101,
-        'resnet152': resnet152
+        'resnet152': resnet152,
     }
 
     def __init__(self, backbone='resnet101', num_classes=1, pretrained=True):
         super(RetinaNet, self).__init__()
-        
+
         self.resnet = RetinaNet.backbones[backbone](pretrained=pretrained)
         self.feature_pyramid = FeaturePyramid(self.resnet)
-        
+
         self.subnet_classes = SubNet(num_classes+1,cls=True)
         self.subnet_boxes = SubNet(4)
 

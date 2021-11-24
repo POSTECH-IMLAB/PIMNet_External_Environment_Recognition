@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import os
 import cv2
 from PIL import Image
@@ -22,7 +23,9 @@ from optparse import OptionParser
 
 def load_model(backbone):
     print('loading model...')
-    model= torch.load(os.path.join('ckpts', 'model',backbone+'_retinanet.pth'))
+    #model = torch.load(os.path.join('models', backbone+'_retinanet.pth'))
+    model = torch.load(os.path.join('ckpts', 'model','18_ckpt.pth'))
+    #model= torch.load(os.path.join('ckpts', 'model',backbone+'_retinanet.pth'))
     net=RetinaNet(backbone=backbone,num_classes=len(cfg.classes))
     net=torch.nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
     net.cuda()
@@ -32,10 +35,10 @@ def load_model(backbone):
 
 def vis(img, boxes,boxes2, boxes3, labels, labels2, labels3, classes,color):
     img=img.copy()
-  
+
     if boxes is not None:
         for box,label in zip(boxes,labels):
-            margin = 10 
+            margin = 10
             cv2.rectangle(img, (max(0,int(box[0]))+margin+ 384,max(0,int(box[1]))+margin),(min(511,int(box[2]))+margin+ 384,min(511,int(box[3]))+margin),color,2)
             ss=cfg.classes[label-1]
             cv2.putText(img, ss, (int(box[0])+384,int(box[1]-10)), 0, 0.6, color, 2)
@@ -59,8 +62,6 @@ def vis(img, boxes,boxes2, boxes3, labels, labels2, labels3, classes,color):
                 cv2.putText(img, ss, (int(box[0]),int(box[1]-10)), 0, 0.6, color, 2)
     return img
 
-
-
 def eval_valid(net, valloader, anno_file,image_dir):
     net.eval()
     annos_pred={}
@@ -68,8 +69,9 @@ def eval_valid(net, valloader, anno_file,image_dir):
     annos=json.loads(open(anno_file).read())
     annos_target={}
     annos_target['imgs']={}
-    
+
     for batch_idx, (inputs, loc_targets, cls_targets) in tqdm(enumerate(valloader)):
+        #import IPython; IPython.embed()
         inputs = Variable(inputs.cuda())
         loc_targets = Variable(loc_targets.cuda())
         cls_targets = Variable(cls_targets.cuda())
@@ -91,12 +93,10 @@ def eval_valid(net, valloader, anno_file,image_dir):
                 bbox['ymin']=box[1]
                 bbox['ymax']=box[3]
 
-            
                 annos_pred['imgs'][imgid]['objects'].append({'score':100*float(score[i]),'bbox':bbox,'category':cfg.classes[labels[i]-1]})
-    
+
     print('Test done, evaluating result...')
-    
-    
+    import IPython; IPython.embed()
     with open(os.path.join(datadir,predict_dir),'w') as f:
         json_str=json.dumps(annos_pred)
         json.dump(annos_pred,f)
@@ -105,27 +105,12 @@ def eval_valid(net, valloader, anno_file,image_dir):
         json_str=json.dumps(annos_target)
         json.dump(annos_target,f)
         f.close()
-    
+
 def test_image(net, imgid_path,file_name):
     img=Image.open(os.path.join(imgid_path,file_name))
-    area2 = (768,0, 1280, 512)
-    area1 = (384,0, 896, 512)
-    area3 = (0, 0, 512, 512)
-    orig_img = img.copy()
-
-    orig_img=np.asarray(orig_img)
-    crop_img1 = img.crop(area1)
-    crop_img2 = img.crop(area2)
-    crop_img3 = img.crop(area3)
-    #img=cv2.resize(np.lofimg,(512,512))
- 
-    
-    img = crop_img1
     width, height=img.size
-    #width = 512
-    #height = 512
-    #if width!=cfg.width or height!=cfg.height:
-    #    img=cv2.resize(np.float32(img),(cfg.width, cfg.height))
+    if width!=cfg.width or height!=cfg.height:
+        img=cv2.resize(img,(cfg.width, cfg.height))
     img=np.asarray(img)
     image = img.transpose((2, 0, 1))
     image=torch.from_numpy(image)
@@ -137,71 +122,58 @@ def test_image(net, imgid_path,file_name):
     image=Variable(image.resize_(1,3,cfg.width,cfg.height))
     loc_pred, cls_pred=net(image)
     boxes,labels,score=DataEncoder().decode(loc_pred[0], cls_pred[0], input_size=(cfg.width,cfg.height))
-
-    img2 = crop_img2
-    width, height=img2.size
-    #width = 512
-    #height = 512
-    #if width!=cfg.width or height!=cfg.height:
-    #    img=cv2.resize(np.float32(img),(cfg.width, cfg.height))
-    img2=np.asarray(img2)
-    image2 = img2.transpose((2, 0, 1))
-    image2=torch.from_numpy(image2)
-    if isinstance(image2, torch.ByteTensor):
-        image2 = image2.float().div(255)
-    for t, m, s in zip(image2, cfg.mean, cfg.std):
-        t.sub_(m).div_(s)
-    net.eval()
-    image2=Variable(image2.resize_(1,3,cfg.width,cfg.height))
-    loc_pred, cls_pred=net(image2)
-    boxes2,labels2,score=DataEncoder().decode(loc_pred[0], cls_pred[0], input_size=(cfg.width,cfg.height))
-
-    img = crop_img3
-    width, height=img.size
-    #width = 512
-    #height = 512
-    #if width!=cfg.width or height!=cfg.height:
-    #    img=cv2.resize(np.float32(img),(cfg.width, cfg.height))
-    img=np.asarray(img)
-    image = img.transpose((2, 0, 1))
-    image=torch.from_numpy(image)
-    if isinstance(image, torch.ByteTensor):
-        image = image.float().div(255)
-    for t, m, s in zip(image, cfg.mean, cfg.std):
-        t.sub_(m).div_(s)
-    net.eval()
-    image=Variable(image.resize_(1,3,cfg.width,cfg.height))
-    loc_pred, cls_pred=net(image)
-    boxes3,labels3,score=DataEncoder().decode(loc_pred[0], cls_pred[0], input_size=(cfg.width,cfg.height))
-
- 
-    new_img=vis(orig_img, boxes, boxes2, boxes3, labels, labels2, labels3, cfg.classes, (0,255,0))
+    if boxes is None:
+        new_img=img
+    else:
+        new_img=vis(img, boxes, labels, cfg.classes, (0,0,255))
     return new_img
-    
-    
+
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option('-m', '--mode', dest='mode',default='demo',
-		help='Operating mode, could be demo or valid, demo mode will provide visulization results for images in samples/')
-    
-    parser.add_option('--backbone','--backbone',dest='backbone',default='resnet152',
+        help='Operating mode, could be demo or valid, demo mode will provide visulization results for images in samples/')
+
+    parser.add_option('--backbone','--backbone',dest='backbone',default='resnet101',
     help='Backbone pretrained model, could be resnet50, resnet101 or resnet152')
-    
+
     options, args = parser.parse_args()
     mode = options.mode
     backbone=options.backbone
     if backbone not in ['resnet50', 'resnet101', 'resnet152']:
         assert ValueError('Invalid backbone: %s' % backbone)
     net=load_model(backbone)
-        
+    if mode=='valid':
+        datadir=cfg.root
+        batch_size=1
+        anno_file=os.path.join(datadir,'annotation.json')
+        target_dir='valid_target.json'
+        predict_dir=backbone+'_predict.json'
+        val_transform = transforms.Compose([
+        transforms.ToTensor(),transforms.Normalize(cfg.mean, cfg.std)])
+        valset = VocLikeDataset(image_dir=cfg.val_image_dir, annotation_file=cfg.annotation_file, imageset_fn=cfg.val_imageset_fn,
+                        image_ext=cfg.image_ext, classes=cfg.classes, encoder=DataEncoder(), transform=val_transform)
+        valloader = torch.utils.data.DataLoader(valset, batch_size=batch_size, shuffle=False,
+                                        num_workers=cfg.num_workers, collate_fn=valset.collate_fn)
 
-    image_dir='samples'
-    img_list=os.listdir(image_dir)
-    for fname in img_list:
-        print(fname)
-        new_img=test_image(net, image_dir, fname)
-        cv2.imwrite('./result/'+fname, cv2.cvtColor(new_img, cv2.COLOR_RGB2BGR))
-        #plt.imshow(new_img)
-        #plt.show()
-        
-    
+        eval_valid(net, valloader,anno_file, cfg.test_dir)
+        filedir=os.path.join(datadir, target_dir)
+
+        annos = json.loads(open(filedir).read())
+        result_anno_file=os.path.join(datadir,predict_dir)
+        results_annos1 = json.loads(open(result_anno_file).read())
+        print (len(results_annos1['imgs']))
+        sm = anno_func.eval_annos(annos, results_annos1, iou=0.5,types=anno_func.type42,minscore=50,check_type=True)
+        print (sm['report'])
+
+    elif mode=='demo':
+        image_dir='samples'
+        img_list=os.listdir(image_dir)
+        for fname in img_list:
+            new_img=test_image(net, image_dir, fname)
+            plt.imshow(new_img)
+            plt.show()
+    else:
+        assert ValueError('Invalid mode: %s' % mode)
+
+
+

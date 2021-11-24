@@ -9,7 +9,6 @@ class AnnotationDir:
         self.anno_file = anno_file
         self.labels = labels
         self.ann_dict = self.build_annotations()
-        
 
     def build_annotations(self):
         box_dict = {}
@@ -21,7 +20,7 @@ class AnnotationDir:
                 label = sign_dict['category']
                 if label in ['po', 'io', 'wo']:
                     continue
-                
+
                 left = int(sign_dict['bbox']['xmin'])
                 right = int(sign_dict['bbox']['xmax'])
                 top = int(sign_dict['bbox']['ymin'])
@@ -29,11 +28,10 @@ class AnnotationDir:
                 box = BoundingBox(left, top, right, bottom, cfg.width,cfg.height,self.labels.index(label))
                 boxes.append(box)
             if len(boxes) > 0:
-               
+
                 box_dict[annos['imgs'][id]['path'].split('/')[-1]] = boxes
         return box_dict
 
 
     def get_boxes(self, fn):
-        
         return self.ann_dict[fn]

@@ -10,7 +10,7 @@ from preprocessing.annotations import AnnotationDir
 import config as cfg
 
 class VocLikeDataset(Dataset):
-    
+
     def __init__(self, image_dir, annotation_file, imageset_fn, image_ext, classes, encoder, transform=None, test=False):
         self.image_dir_path = image_dir
         self.image_ext = image_ext
@@ -21,10 +21,10 @@ class VocLikeDataset(Dataset):
         self.encoder = encoder
         self.transform = transform
         self.test = test
-        
+
 
     def __getitem__(self, index):
-        
+
         image_fn = self.filenames[index]
         fn=os.path.join(self.image_dir_path.split('/')[-1],image_fn)
         image_path = os.path.join(self.image_dir_path, image_fn)
@@ -34,7 +34,7 @@ class VocLikeDataset(Dataset):
         if not self.test:
             boxes = self.annotation_dir.get_boxes(image_fn.split('/')[-1])
             example['boxes']=boxes
-       
+
         if self.transform:
             example = self.transform(example)
         return example
@@ -48,7 +48,7 @@ class VocLikeDataset(Dataset):
             boxes  = [example['boxes'] for example in batch]
             labels = [example['labels'] for example in batch]
         img_sizes = [img.size()[1:] for img in imgs]
-        
+
         max_h = max([im.size(1) for im in imgs])
         max_w = max([im.size(2) for im in imgs])
         num_imgs = len(imgs)

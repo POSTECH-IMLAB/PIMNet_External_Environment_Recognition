@@ -13,6 +13,7 @@ import preprocessing.transforms as transforms
 from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
+from mobilenetv2 import MobileNetV2
 from preprocessing.datasets import VocLikeDataset
 
 
@@ -47,7 +48,9 @@ valloader = torch.utils.data.DataLoader(valset, batch_size=4, shuffle=False,
                                         num_workers=cfg.num_workers, collate_fn=valset.collate_fn)
 
 print('Building model...')
+
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
+
 net = torch.nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
 net.cuda()
 cudnn.benchmark = True
@@ -59,8 +62,6 @@ if args.resume:
 
     start_epoch = checkpoint['epoch']
     lr = cfg.lr
-
-
 
 
 criterion = FocalLoss(len(cfg.classes))
@@ -95,9 +96,9 @@ def train(epoch):
         nn.utils.clip_grad_norm(net.parameters(), max_norm=1.0)
         optimizer.step()
 
-        train_loss += loss.data[0]
+        train_loss += loss.data
         if batch_idx%2==0:
-            print('train_loss: %.3f | avg_loss: %.4f' % (loss.data[0], train_loss/(batch_idx+1)))
+            print('train_loss: %.3f | avg_loss: %.4f' % (loss.data, train_loss/(batch_idx+1)))
 
     save_checkpoint(train_loss,epoch, len(trainloader))
 
@@ -115,9 +116,9 @@ def val(epoch):
         pos = cls_targets > 0
 
         loss = criterion(loc_preds, loc_targets, cls_preds, cls_targets,pos,batch_idx%10==0)
-        val_loss += loss.data[0]
+        val_loss += loss.data
         if batch_idx%10==0:
-            print('val_loss: %.4f | avg_loss: %.4f' % (loss.data[0], val_loss/(batch_idx+1)))
+            print('val_loss: %.4f | avg_loss: %.4f' % (loss.data, val_loss/(batch_idx+1)))
 
 
 
@@ -149,6 +150,3 @@ for epoch in range(start_epoch + 1, start_epoch + cfg.num_epochs + 1):
     train(epoch)
     if cfg.eval_while_training and epoch % cfg.eval_every == 0:
         val(epoch)
-
-
-

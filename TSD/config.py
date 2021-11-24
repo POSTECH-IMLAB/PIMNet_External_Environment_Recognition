@@ -1,12 +1,12 @@
 import os
 
-root = 'data'
+root = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 train_dir='train'
 test_dir='test'
 image_dir = os.path.join(root, train_dir)
 
-#annotation_file=os.path.join(root,'annotation.json')
-annotation_file = os.path.join(root, 'resnet50_predict.json')
+annotation_file=os.path.join(root,'annotation.json')
+
 train_imageset_fn=os.listdir(image_dir)
 test_imageset_fn=os.listdir(os.path.join(root,test_dir))
 
@@ -78,6 +78,6 @@ weight_decay =0.0002
 num_epochs =18
 lr_decay_epochs = [12]
 num_workers = 8
-width,height=512,512
+width,height=128,128
 eval_while_training = True
-eval_every = 2
+eval_every = 1
