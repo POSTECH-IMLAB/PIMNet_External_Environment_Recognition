@@ -13,9 +13,9 @@ import cv2
 import numpy as np
 import time
 from progress.bar import Bar
-import torch
-import copy
 
+import copy
+import torch
 from model.model import create_model, load_model
 from opts import opts
 from dataset.dataset_factory import dataset_factory
