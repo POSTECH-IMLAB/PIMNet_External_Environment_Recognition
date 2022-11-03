@@ -74,7 +74,7 @@ class Detector(object):
     
     detections = []
 
-    # for multi-scale testing
+    # for multi-scale testing 
     for scale in self.opt.test_scales:
       scale_start_time = time.time()
       if not pre_processed:
@@ -165,7 +165,7 @@ class Detector(object):
             'display': display_time}
     if self.opt.save_video:
       try:
-        # return debug image for saving video
+        # return debug image for saving video file
         ret.update({'generic': self.debugger.imgs['generic']})
       except:
         pass
