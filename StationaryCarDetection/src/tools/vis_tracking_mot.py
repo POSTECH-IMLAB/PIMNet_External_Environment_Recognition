@@ -8,7 +8,7 @@ from pathlib import Path
 
 GT_PATH = '../../data/mot17/test/'
 IMG_PATH = GT_PATH
-SAVE_VIDEO = True
+SAVE_VIDEO = False
 RESIZE = 2
 IS_GT = False
 
