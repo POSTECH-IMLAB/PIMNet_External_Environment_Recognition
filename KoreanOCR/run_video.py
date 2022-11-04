@@ -37,7 +37,7 @@ def run(model, filename, vis_thres=0.3):
         result = model.ocr(image)
         end = time.time()
         
-        for res in result_ko:
+        for res in result:
             prob = res[2]
             if prob < vis_thres:
                 continue
