@@ -3,6 +3,7 @@ from re import L
 import sys
 import glob
 import time
+import torch
 
 import cv2
 import numpy as np
