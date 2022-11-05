@@ -36,8 +36,6 @@ class FocalLoss(nn.Module):
         loss =loss * (1 - logit) ** 2
         return loss.sum()
 
-
-
     def forward(self, loc_preds, loc_targets, cls_preds, cls_targets,pos,verbose):
         batch_size, num_boxes = cls_targets.size()
         num_pos = pos.data.long().sum()
