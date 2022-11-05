@@ -88,7 +88,7 @@ class DataEncoder:
             loc_preds = loc_preds[:max_num]
             cls_preds = cls_preds[:max_num]
 
-        CLS_THRESH = 0.1
+        CLS_THRESH = 0.05 ### 0.1
         NMS_THRESH = 0.4
 
         if isinstance(input_size, int):
