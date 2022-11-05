@@ -30,7 +30,7 @@ best_loss = float('inf')
 start_epoch = 0
 lr = cfg.lr
 
-print('Preparing data..')
+#print('Preparing data..')
 
 train_transform_list = [transforms.ToTensor(),transforms.Normalize(cfg.mean, cfg.std)]
 if cfg.scale is not None:
@@ -47,7 +47,7 @@ valset = VocLikeDataset(image_dir=cfg.image_dir, annotation_file=cfg.annotation_
 valloader = torch.utils.data.DataLoader(valset, batch_size=4, shuffle=False,
                                         num_workers=cfg.num_workers, collate_fn=valset.collate_fn)
 
-print('Building model...')
+#print('Building model...')
 
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
 
