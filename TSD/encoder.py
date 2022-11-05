@@ -6,7 +6,6 @@ import numpy as np
 
 import torch.nn.functional as F
 
-   #this tensor is to scale the loc_loss to the similar ratio to the cls_loss
 class DataEncoder:
 
     def __init__(self):
