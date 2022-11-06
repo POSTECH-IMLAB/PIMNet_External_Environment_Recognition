@@ -20,8 +20,8 @@ def one_hot(index, classes):
 
 def one_hot_embedding(labels, num_classes):
 
-    y = torch.eye(num_classes)  # [D,D]
-    return y[labels]            # [N,D]
+    y = torch.eye(num_classes)  ### [D,D]
+    return y[labels]            ### [N,D]
 
 class FocalLoss(nn.Module):
     def __init__(self, num_classes):
