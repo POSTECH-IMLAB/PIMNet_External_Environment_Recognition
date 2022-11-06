@@ -3,7 +3,6 @@ import numpy as np
 import glob
 
 img_array = []
-
 img = cv2.imread('cover.jpg')
 
 for i in range(0,15):
