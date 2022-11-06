@@ -25,7 +25,6 @@ def load_model(backbone):
     print('loading model...')
     #model = torch.load(os.path.join('models', backbone+'_retinanet.pth'))
     model = torch.load(os.path.join('ckpts', 'model','18_ckpt.pth'))
-    #model= torch.load(os.path.join('ckpts', 'model',backbone+'_retinanet.pth'))
     net=RetinaNet(backbone=backbone,num_classes=len(cfg.classes))
     net=torch.nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
     net.cuda()
