@@ -31,7 +31,7 @@ class FocalLoss(nn.Module):
     def focal_loss(self, x, y):
         y = one_hot(y.cpu(), x.size(-1)).cuda()
         logit = F.softmax(x)
-        logit = logit.clamp(1e-7, 1. - 1e-7)
+        logit = logit.clamp(1e-8, 1. - 1e-8)
         loss = -1 * y.float() * torch.log(logit)
         loss =loss * (1 - logit) ** 2
         return loss.sum()
