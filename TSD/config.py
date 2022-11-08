@@ -12,7 +12,6 @@ test_imageset_fn=os.listdir(os.path.join(root,test_dir))
 
 train_imageset_fn=list(map(lambda x:os.path.join(train_dir,x),train_imageset_fn))
 
-
 val_image_dir=os.path.join(root, test_dir)
 val_imageset_fn = list(map(lambda x:os.path.join(test_dir,x),test_imageset_fn))
 image_ext = '.jpg'
