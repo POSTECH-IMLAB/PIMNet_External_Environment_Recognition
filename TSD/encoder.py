@@ -89,7 +89,7 @@ class DataEncoder:
             cls_preds = cls_preds[:max_num]
 
         CLS_THRESH = 0.05 ### 0.1
-        NMS_THRESH = 0.4
+        NMS_THRESH = 0.4 ### 0.3
 
         if isinstance(input_size, int):
             input_size = torch.Tensor([input_size, input_size])
