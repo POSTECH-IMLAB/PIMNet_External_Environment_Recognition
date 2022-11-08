@@ -1,1 +1,1 @@
-Korean Optical Character Recognition
+Korean Optical Character Recognition (KoreanOCR)
