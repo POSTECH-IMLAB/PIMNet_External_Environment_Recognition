@@ -1,2 +1,2 @@
 # Korean Optical Character Recognition (KoreanOCR)
-This Korean OCR system is designed as a module of Advanced Driver Assistance Systems (ADAS).
+This Korean OCR system is designed as a module of Advanced Driver Assistance Systems (ADAS). It detects and recognizes Korean characters in traffic signs from driving-view image sequences.
