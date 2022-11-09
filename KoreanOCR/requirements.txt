@@ -4,3 +4,4 @@ PIL
 opencv-python
 scipy
 pyyaml
+tqdm
