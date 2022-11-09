@@ -5,6 +5,7 @@ wget https://motchallenge.net/data/MOT20.zip
 
 
 unzip MOT17.zip
+unzip MOT20.zip
 rm MOT17.zip
 mkdir annotations
 cd ../../src/tools/
