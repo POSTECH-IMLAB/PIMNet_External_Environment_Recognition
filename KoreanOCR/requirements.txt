@@ -1,0 +1,6 @@
+torch
+torchvision
+PIL
+opencv-python
+scipy
+pyyaml
