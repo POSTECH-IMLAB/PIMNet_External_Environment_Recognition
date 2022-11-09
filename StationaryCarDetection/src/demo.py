@@ -94,6 +94,7 @@ def demo(opt):
 
       # save debug image to video
       if opt.save_video:
+        #visualize and write
         out.write(ret['generic'])
         if not is_video:
           cv2.imwrite('../results/demo{}.jpg'.format(cnt), ret['generic'])
