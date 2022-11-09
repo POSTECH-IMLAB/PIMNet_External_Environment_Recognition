@@ -87,6 +87,7 @@ if __name__ == '__main__':
         cv2.imshow('pred{}'.format(K), img_pred)
       draw_bbox(img, image_to_anns[frame_id])
       cv2.imshow('gt', img)
+      
       cv2.waitKey()
       # if SAVE_VIDEO:
       #   video.write(img_pred)
