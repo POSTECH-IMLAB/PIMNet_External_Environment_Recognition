@@ -1,5 +1,5 @@
 import torch
-import nn
+import torch.nn as nn
 
 class QuantizedResNet18(nn.Module):
     def __init__(self, model_fp32):
