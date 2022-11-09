@@ -1,3 +1,7 @@
+"""
+    Am Python code for Quantization Aware Training
+"""
+
 import torch
 import torch.nn as nn
 
