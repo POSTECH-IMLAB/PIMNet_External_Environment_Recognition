@@ -53,7 +53,7 @@ def run(model, filename, vis_thres=0.3):
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    model_dir = './models/last.ckpt'
+    model_dir = './checkpoints/last.ckpt'
     file_list = glob.glob(os.path.join("./video/", "IMG*.MOV"))
     reader_ko = torch.load(model_dir)
 
