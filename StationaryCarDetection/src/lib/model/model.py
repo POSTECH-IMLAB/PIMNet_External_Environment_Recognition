@@ -70,6 +70,7 @@ def load_model(model, model_path, opt, optimizer=None):
       state_dict[k] = model_state_dict[k]
   model.load_state_dict(state_dict, strict=False)
 
+  
   # resume optimizer parameters
   if optimizer is not None and opt.resume:
     if 'optimizer' in checkpoint:
