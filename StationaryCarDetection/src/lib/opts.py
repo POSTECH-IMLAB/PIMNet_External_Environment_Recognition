@@ -66,8 +66,8 @@ class opts(object):
     self.parser.add_argument('--save_video', action='store_true')
     self.parser.add_argument('--save_framerate', type=int, default=30)
     self.parser.add_argument('--resize_video', action='store_true')
-    self.parser.add_argument('--video_h', type=int, default=502, help='')
-    self.parser.add_argument('--video_w', type=int, default=800, help='')
+    self.parser.add_argument('--video_h', type=int, default=502, help='') #default video size
+    self.parser.add_argument('--video_w', type=int, default=800, help='') 
     self.parser.add_argument('--transpose_video', action='store_true')
     self.parser.add_argument('--show_track_color', action='store_true')
     self.parser.add_argument('--not_show_bbox', action='store_true')

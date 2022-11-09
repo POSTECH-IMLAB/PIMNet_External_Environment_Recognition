@@ -13,7 +13,6 @@ model_urls = {
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
 
-
 class BasicBlockFeatures(BasicBlock):
     def forward(self, x):
         if isinstance(x, tuple):

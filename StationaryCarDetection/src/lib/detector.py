@@ -151,6 +151,7 @@ class Detector(object):
     track_time += tracking_time - end_time
     tot_time += tracking_time - start_time
 
+    # show result here
     if self.opt.debug >= 1:
       self.show_results(self.debugger, image, results)
     self.cnt += 1
@@ -159,6 +160,7 @@ class Detector(object):
     display_time += show_results_time - end_time
     
     # return results and run time
+    # return image frames
     ret = {'results': results, 'tot': tot_time, 'load': load_time,
             'pre': pre_time, 'net': net_time, 'dec': dec_time,
             'post': post_time, 'merge': merge_time, 'track': track_time,

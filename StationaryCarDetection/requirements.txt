@@ -10,4 +10,5 @@ pyquaternion
 nuscenes-devkit
 pyyaml
 motmetrics
-scikit-learn==0.22.2
+scikit-learn==0.22.2 
+

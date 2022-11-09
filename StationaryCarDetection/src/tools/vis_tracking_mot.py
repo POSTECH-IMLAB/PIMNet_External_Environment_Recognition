@@ -12,6 +12,7 @@ SAVE_VIDEO = False
 RESIZE = 2
 IS_GT = False
 
+#draw bbox
 def draw_bbox(img, bboxes, c=(255, 0, 255)):
   for bbox in bboxes:
     cv2.rectangle(img, (int(bbox[0]), int(bbox[1])), 
@@ -86,6 +87,7 @@ if __name__ == '__main__':
         cv2.imshow('pred{}'.format(K), img_pred)
       draw_bbox(img, image_to_anns[frame_id])
       cv2.imshow('gt', img)
+      
       cv2.waitKey()
       # if SAVE_VIDEO:
       #   video.write(img_pred)

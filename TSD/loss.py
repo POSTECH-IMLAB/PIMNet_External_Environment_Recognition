@@ -20,8 +20,8 @@ def one_hot(index, classes):
 
 def one_hot_embedding(labels, num_classes):
 
-    y = torch.eye(num_classes)  # [D,D]
-    return y[labels]            # [N,D]
+    y = torch.eye(num_classes)  ### [D,D]
+    return y[labels]            ### [N,D]
 
 class FocalLoss(nn.Module):
     def __init__(self, num_classes):
@@ -31,12 +31,10 @@ class FocalLoss(nn.Module):
     def focal_loss(self, x, y):
         y = one_hot(y.cpu(), x.size(-1)).cuda()
         logit = F.softmax(x)
-        logit = logit.clamp(1e-7, 1. - 1e-7)
+        logit = logit.clamp(1e-8, 1. - 1e-8)
         loss = -1 * y.float() * torch.log(logit)
         loss =loss * (1 - logit) ** 2
         return loss.sum()
-
-
 
     def forward(self, loc_preds, loc_targets, cls_preds, cls_targets,pos,verbose):
         batch_size, num_boxes = cls_targets.size()

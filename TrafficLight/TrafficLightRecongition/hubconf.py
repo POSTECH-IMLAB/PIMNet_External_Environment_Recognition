@@ -16,7 +16,6 @@ from utils.google_utils import attempt_download
 dependencies = ['torch', 'yaml']
 set_logging()
 
-
 def create(name, pretrained, channels, classes):
     """Creates a specified YOLOv5 model
 
