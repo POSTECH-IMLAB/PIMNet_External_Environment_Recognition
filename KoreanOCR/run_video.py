@@ -58,4 +58,4 @@ if __name__ == '__main__':
     reader_ko = torch.load(model_dir)
 
     for video in file_list:
-        run(video, 0.2)
+        run(reader_ko, video, 0.2)
