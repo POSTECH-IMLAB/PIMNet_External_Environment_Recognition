@@ -14,6 +14,7 @@ from ..generic_dataset import GenericDataset
 class COCO(GenericDataset):
   default_resolution = [512, 512]
   num_categories = 80
+  #coco class name -> select person, car, bus, truck
   class_name = [
     'person', 'bicycle', 'car', 'motorcycle', 'airplane',
     'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
