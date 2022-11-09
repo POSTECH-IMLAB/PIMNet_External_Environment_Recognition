@@ -38,7 +38,7 @@ def save_txt(txt_name, pts_cls):
     ret.append(np.array(pts_cls[i][:4], dtype=np.int32).reshape(8).tolist() \
                + [pts_cls[i][4]])
   np.savetxt(txt_name, np.array(ret, dtype=np.int32), fmt='%d')
-
+#class where
 def click(event, x, y, flags, param):
   global expt_cls, bboxes, pts
   if event == cv2.EVENT_LBUTTONDOWN:
